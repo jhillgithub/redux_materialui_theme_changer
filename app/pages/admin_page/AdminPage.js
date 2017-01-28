@@ -20,7 +20,8 @@ import UserTable from './components/UserTable';
     user: store.user.user,
     inputUsername: store.user.inputUsername,
     inputEmail: store.user.inputEmail,
-    userTableConfig: store.userTableConfig
+    userTableConfig: store.userTableConfig,
+    theme: store.themes.theme
   };
 })
 export default class Admin extends React.Component {
