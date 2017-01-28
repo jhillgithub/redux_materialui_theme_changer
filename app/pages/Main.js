@@ -22,27 +22,26 @@ import unknownTheme from '../themes/unknown';
 // Components
 import NavBar from './components/Navbar';
 
-// @connect((store) => {
-//   console.log("store", store)
-//   return {
-//     theme: store.emotion.theme
-//   };
-// })
+// actions
+import { change_theme } from '../actions/action_themes';
+
+
+@connect((store) => {
+  return {
+    theme: store.themes.theme
+  };
+})
 export default class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      theme: ''
-    }
     this.changeTheme = this.changeTheme.bind(this);
+    this.selectTheme = this.selectTheme.bind(this);
   }
 
   changeTheme() {
-    var newTheme = this.state.theme === happyTheme ? angryTheme : happyTheme;
-    this.setState({
-      theme: newTheme
-    });
+    var newTheme = this.props.theme === 'happy' ? 'angry' : 'happy';
+    this.props.dispatch(change_theme(newTheme));
   }
 
   componentDidMount() {
@@ -54,26 +53,22 @@ export default class Main extends React.Component {
     clearInterval(this.state.ival);
   }
 
-  // selectTheme(theme) {
-  //   const theme = 'happy';
-  //   switch (theme) {
-  //     case 'angry':
-  //       return angryTheme;
-  //       break;
-  //     case 'happy':
-  //       return happyTheme;
-  //       break;
-  //     default:
-  //       return unknownTheme;
-  //   }
-  // }
+  selectTheme(theme) {
+    switch (theme) {
+      case 'angry':
+        return angryTheme;
+        break;
+      case 'happy':
+        return happyTheme;
+        break;
+      default:
+        return unknownTheme;
+    }
+  }
 
-  // const { theme } from this.props;
-  // const selectedTheme = selectTheme(theme);
   render() {
     return (
-      // <MuiThemeProvider>
-      <MuiThemeProvider muiTheme={getMuiTheme(this.state.theme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(this.selectTheme(this.props.theme))}>
         <div>
             <NavBar />
             <Container>
